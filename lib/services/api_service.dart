@@ -76,6 +76,15 @@ class ApiService {
     }
   }
 
+  static Future<Dog> getDogDesc(String desc) async {
+    final response = await http.get(Uri.parse('$baseUrl/dogs/desc/$desc'));
+    if (response.statusCode == 200) {
+      return Dog.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load dog description');
+    }
+  }
+
   static Future<void> deleteDog(int id) async {
     final response = await http.delete(Uri.parse('$baseUrl/dogs/$id'));
     if (response.statusCode != 200) {

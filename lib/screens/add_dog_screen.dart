@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:take_care_pets/services/api_service.dart';
@@ -19,8 +20,34 @@ class _AddDogScreenState extends State<AddDogScreen> {
   bool _isLoading = false;
 
   Future<void> _getImage() async {
+    final status = await Permission.camera.request();
+
+    if (status.isDenied) {
+      // El usuario denegó el permiso
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text('Se necesitan permisos de cámara para tomar fotos')),
+      );
+      return;
+    }
+
+    if (status.isPermanentlyDenied) {
+      // El usuario denegó el permiso permanentemente
+      // Puedes guiarlos a la configuración de la app
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text(
+                'Por favor habilita los permisos de cámara en la configuración')),
+      );
+      await openAppSettings();
+      return;
+    }
+
     final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    final pickedFile = await picker.pickImage(
+      source: ImageSource.camera, // Cambiado de gallery a camera
+      preferredCameraDevice: CameraDevice.rear, // Opcional: usar cámara trasera
+    );
 
     if (pickedFile != null) {
       setState(() {
@@ -93,7 +120,7 @@ class _AddDogScreenState extends State<AddDogScreen> {
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _getImage,
-                child: const Text('Seleccionar Foto'),
+                child: const Text('Tomar Foto'),
               ),
               const SizedBox(height: 20),
               TextFormField(

@@ -38,6 +38,22 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void _searchByDescription() {
+    final desc = _searchController.text.trim();
+    if (desc.isEmpty) {
+      _refreshDogs(); // Si el campo está vacío, recarga todos los perros
+    } else {
+      setState(() {
+        futureDogs = ApiService.getDogDesc(desc)
+            .then((dog) => [dog]) // Convertimos el resultado en una lista
+            .catchError((error) {
+          // Si hay un error (como no encontrar resultados), mostramos lista vacía
+          return <Dog>[];
+        });
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,14 +76,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: TextField(
                     controller: _searchController,
                     decoration: const InputDecoration(
-                      labelText: 'Buscar perros cercanos',
-                      suffixIcon: Icon(Icons.search),
+                      labelText: 'Buscar perros',
                     ),
                   ),
                 ),
                 IconButton(
+                  icon: const Icon(Icons.search),
+                  onPressed: _searchByDescription,
+                ),
+                IconButton(
                   icon: const Icon(Icons.refresh),
-                  onPressed: _searchNearby,
+                  onPressed: _refreshDogs,
                 ),
               ],
             ),
@@ -81,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 } else if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Center(child: Text('No hay perros registrados'));
+                  return const Center(child: Text('No se encontraron perros'));
                 } else {
                   return ListView.builder(
                     itemCount: snapshot.data!.length,
