@@ -41,15 +41,10 @@ class _HomeScreenState extends State<HomeScreen> {
   void _searchByDescription() {
     final desc = _searchController.text.trim();
     if (desc.isEmpty) {
-      _refreshDogs(); // Si el campo está vacío, recarga todos los perros
+      _refreshDogs();
     } else {
       setState(() {
-        futureDogs = ApiService.getDogDesc(desc)
-            .then((dog) => [dog]) // Convertimos el resultado en una lista
-            .catchError((error) {
-          // Si hay un error (como no encontrar resultados), mostramos lista vacía
-          return <Dog>[];
-        });
+        futureDogs = ApiService.getDogDesc(desc);
       });
     }
   }

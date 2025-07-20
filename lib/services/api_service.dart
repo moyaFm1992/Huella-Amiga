@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'dart:io';
+import 'dart:io'; // Para File y path
+import 'package:path/path.dart' as path_lib;
 import '../models/dog.dart';
 
 class ApiService {
@@ -36,34 +37,29 @@ class ApiService {
     double longitude, {
     File? imageFile,
   }) async {
-    final request = http.MultipartRequest(
-      'POST',
-      Uri.parse('$baseUrl/dogs'),
-    );
+    final uri = Uri.parse('${ApiService.baseUrl}/dogs');
+    var request = http.MultipartRequest('POST', uri);
 
     request.fields['description'] = description;
     request.fields['latitude'] = latitude.toString();
     request.fields['longitude'] = longitude.toString();
 
     if (imageFile != null) {
-      final fileStream = http.ByteStream(imageFile.openRead());
-      final length = await imageFile.length();
-      final multipartFile = http.MultipartFile(
-        'photo',
-        fileStream,
-        length,
-        filename: 'dog_${DateTime.now().millisecondsSinceEpoch}.jpg',
-      );
-      request.files.add(multipartFile);
+      request.files.add(await http.MultipartFile.fromPath(
+          'image', // Nombre del campo que espera el servidor
+          imageFile.path,
+          filename:
+              'dog-${DateTime.now().millisecondsSinceEpoch}${path_lib.extension(imageFile.path)}'));
     }
 
     final response = await request.send();
-    final responseString = await response.stream.bytesToString();
+    final responseBody = await response.stream.bytesToString();
 
     if (response.statusCode == 201) {
-      return Dog.fromJson(jsonDecode(responseString));
+      return Dog.fromJson(json.decode(responseBody));
     } else {
-      throw Exception('Failed to create dog');
+      throw Exception(
+          'Error al crear perro: ${json.decode(responseBody)['error']}');
     }
   }
 
@@ -76,12 +72,18 @@ class ApiService {
     }
   }
 
-  static Future<Dog> getDogDesc(String desc) async {
-    final response = await http.get(Uri.parse('$baseUrl/dogs/desc/$desc'));
+  static Future<List<Dog>> getDogDesc(String desc) async {
+    final encodedDesc = Uri.encodeComponent(desc); // Codifica el texto
+    final response =
+        await http.get(Uri.parse('$baseUrl/dogs/desc/$encodedDesc'));
+
     if (response.statusCode == 200) {
-      return Dog.fromJson(json.decode(response.body));
+      final List<dynamic> body = json.decode(response.body);
+      return body.map((json) => Dog.fromJson(json)).toList();
+    } else if (response.statusCode == 404) {
+      return []; // Retorna lista vacía si no encuentra resultados
     } else {
-      throw Exception('Failed to load dog description');
+      throw Exception('Failed to load dogs by description');
     }
   }
 

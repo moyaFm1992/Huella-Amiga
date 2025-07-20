@@ -67,7 +67,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   ),
                   const SizedBox(height: 40),
                   const Text(
-                    'Rescata, cuida, ama: cambia una vida.',
+                    'Rescata, cuida, ama, cambia una vida.',
                     style: TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.bold,
