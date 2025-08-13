@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:take_care_pets/models/dog.dart';
+import 'package:take_care_pets/screens/dog_location_screen.dart';
 
 class DogDetailScreen extends StatelessWidget {
   final Dog dog;
@@ -52,9 +53,20 @@ class DogDetailScreen extends StatelessWidget {
                         ),
                   ),
                   const SizedBox(height: 8),
-                  Text(
-                    'Latitud: ${dog.latitude.toStringAsFixed(6)} Longitud: ${dog.longitude.toStringAsFixed(6)}',
-                    style: const TextStyle(fontSize: 16),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => DogLocationScreen(
+                            latitude: dog.latitude,
+                            longitude: dog.longitude,
+                          ),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.map),
+                    label: const Text('Ver en mapa'),
                   ),
 
                   const SizedBox(height: 24),

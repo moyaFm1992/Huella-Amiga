@@ -2,7 +2,7 @@ name: take_care_pets
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -41,6 +41,8 @@ dependencies:
   permission_handler: ^10.4.0
   logging: ^1.2.0
   path: ^1.8.0
+  flutter_map: ^6.0.1
+  latlong2: ^0.9.0
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
@@ -51,12 +53,12 @@ flutter_icons:
   ios: true
   image_path: "assets/icons/logo.png"
   # Opciones adicionales (personaliza):
-  adaptive_icon_background: "#FFFFFF"  # Color de fondo para íconos adaptativos (Android)
+  adaptive_icon_background: "#FFFFFF" # Color de fondo para íconos adaptativos (Android)
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  
+
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -75,8 +77,8 @@ flutter:
   uses-material-design: true
   assets:
     - assets/icons/logo.png
-    - assets/images/add_button.png 
-    - assets/images/empty.png 
+    - assets/images/add_button.png
+    - assets/images/empty.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
