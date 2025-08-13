@@ -54,12 +54,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Rescata, cuida, ama'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.map),
-            onPressed: () {},
-          ),
-        ],
       ),
       body: Column(
         children: [
@@ -71,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: TextField(
                     controller: _searchController,
                     decoration: const InputDecoration(
-                      labelText: 'Buscar perros',
+                      labelText: 'Buscar',
                     ),
                   ),
                 ),
@@ -95,7 +89,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 } else if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Center(child: Text('No se encontraron perros'));
+                  return const Center(
+                      child: Text('No se encontraron registros'));
                 } else {
                   return ListView.builder(
                     itemCount: snapshot.data!.length,
