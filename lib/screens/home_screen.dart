@@ -28,16 +28,6 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  void _searchNearby() {
-    // Esto es un ejemplo, en una app real deberías obtener la ubicación actual
-    const double mockLatitude = 19.4326; // Ejemplo: Ciudad de México
-    const double mockLongitude = -99.1332;
-
-    setState(() {
-      futureDogs = ApiService.getNearbyDogs(mockLatitude, mockLongitude);
-    });
-  }
-
   void _searchByDescription() {
     final desc = _searchController.text.trim();
     if (desc.isEmpty) {
@@ -96,7 +86,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemCount: snapshot.data!.length,
                     itemBuilder: (context, index) {
                       Dog dog = snapshot.data![index];
-                      return DogCard(dog: dog);
+                      return DogCard(
+                        dog: dog,
+                        onChangeStatus: () async {
+                          await ApiService.updateDog(dog.id);
+
+                          _refreshDogs(); // Refresca la lista
+                        },
+                      );
                     },
                   );
                 }

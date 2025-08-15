@@ -44,14 +44,6 @@ class ApiService {
     request.fields['latitude'] = latitude.toString();
     request.fields['longitude'] = longitude.toString();
 
-    if (imageFile != null) {
-      request.files.add(await http.MultipartFile.fromPath(
-          'image', // Nombre del campo que espera el servidor
-          imageFile.path,
-          filename:
-              'dog-${DateTime.now().millisecondsSinceEpoch}${path_lib.extension(imageFile.path)}'));
-    }
-
     final response = await request.send();
     final responseBody = await response.stream.bytesToString();
 
@@ -91,6 +83,17 @@ class ApiService {
     final response = await http.delete(Uri.parse('$baseUrl/dogs/$id'));
     if (response.statusCode != 200) {
       throw Exception('Failed to delete dog');
+    }
+  }
+
+  static Future<Dog> updateDog(int id) async {
+    print(id);
+    final response = await http.put(Uri.parse('$baseUrl/dogs/status/$id'));
+
+    if (response.statusCode == 200) {
+      return Dog.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to change status');
     }
   }
 }

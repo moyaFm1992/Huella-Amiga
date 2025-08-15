@@ -11,7 +11,7 @@ class DogDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Detalles del Perro'),
+        title: const Text('Detalles'),
       ),
       body: SingleChildScrollView(
         child: Column(

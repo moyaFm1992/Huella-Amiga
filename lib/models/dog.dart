@@ -17,12 +17,18 @@ class Dog {
 
   factory Dog.fromJson(Map<String, dynamic> json) {
     return Dog(
-      id: json['id'],
-      description: json['description'],
-      photoPath: json['photo_path'],
-      latitude: double.parse(json['latitude'].toString()),
-      longitude: double.parse(json['longitude'].toString()),
-      createdAt: DateTime.parse(json['created_at']),
+      id: json['id'] as int? ?? 0,
+      description: json['description'] as String? ?? '',
+      photoPath: json['photo_path'] as String?,
+      latitude: json['latitude'] != null
+          ? double.parse(json['latitude'].toString())
+          : 0.0,
+      longitude: json['longitude'] != null
+          ? double.parse(json['longitude'].toString())
+          : 0.0,
+      createdAt: json['created_at'] != null
+          ? DateTime.parse(json['created_at'])
+          : DateTime.now(),
     );
   }
 

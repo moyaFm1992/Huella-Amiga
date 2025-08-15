@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:take_care_pets/screens/home_screen.dart';
 import 'package:take_care_pets/screens/main_menu.dart';
 import 'no_connection_screen.dart'; // Asegúrate de crearla o adaptarla
 

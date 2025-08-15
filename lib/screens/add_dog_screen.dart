@@ -101,7 +101,7 @@ class _AddDogScreenState extends State<AddDogScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Reportar Perro Callejero'),
+        title: const Text('Reportar avistamiento'),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
