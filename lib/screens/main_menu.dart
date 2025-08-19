@@ -3,6 +3,8 @@ import 'home_screen.dart';
 import 'about_screen.dart';
 
 class MainMenu extends StatefulWidget {
+  const MainMenu({super.key});
+
   @override
   _MainMenuState createState() => _MainMenuState();
 }
@@ -12,7 +14,7 @@ class _MainMenuState extends State<MainMenu> {
 
   final List<Widget> _screens = [
     const HomeScreen(),
-    AboutScreen(),
+    const AboutScreen(),
   ];
 
   void _onItemTapped(int index) {

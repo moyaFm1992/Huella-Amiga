@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:shared_preferences/shared_preferences.dart'; // Añade esta dependencia
 import 'package:take_care_pets/screens/main_menu.dart';
-import 'no_connection_screen.dart'; // Asegúrate de crearla o adaptarla
+import 'package:take_care_pets/screens/onboarding_screen.dart'; // Importa el onboarding
+import 'no_connection_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -25,11 +27,22 @@ class _SplashScreenState extends State<SplashScreen> {
     final hasInternet = await InternetConnectionChecker().hasConnection;
 
     if (connectivityResult != ConnectivityResult.none && hasInternet) {
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => MainMenu()),
-        (route) => false,
-      );
+      final prefs = await SharedPreferences.getInstance();
+      final seenOnboarding = prefs.getBool("seenOnboarding") ?? false;
+
+      if (seenOnboarding) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const MainMenu()),
+          (route) => false,
+        );
+      } else {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const OnboardingScreen()),
+          (route) => false,
+        );
+      }
     } else {
       Navigator.pushAndRemoveUntil(
         context,
@@ -39,6 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
     }
   }
 
+  // El resto del código permanece igual...
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -27,8 +27,9 @@ class DogLocationScreen extends StatelessWidget {
         ),
         children: [
           TileLayer(
-            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-            userAgentPackageName: 'com.example.app',
+            urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            subdomains: const ['a', 'b', 'c'],
+            userAgentPackageName: "app.roman.com",
           ),
           MarkerLayer(
             markers: [

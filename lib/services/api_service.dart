@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'dart:io'; // Para File y path
-import 'package:path/path.dart' as path_lib;
 import '../models/dog.dart';
 
 class ApiService {

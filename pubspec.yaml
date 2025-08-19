@@ -38,17 +38,17 @@ dependencies:
   intl: ^0.18.1
   connectivity_plus: ^5.0.2
   internet_connection_checker: ^1.0.0+1
-  permission_handler: ^10.4.0
+  permission_handler: ^11.3.1
   logging: ^1.2.0
   path: ^1.8.0
   flutter_map: ^6.0.1
   latlong2: ^0.9.0
   flutter_slidable: ^3.0.1
+  shared_preferences: ^2.2.3
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   flutter_launcher_icons: ^0.14.4
-
 flutter_icons:
   android: "launcher_icon"
   ios: true
@@ -80,6 +80,8 @@ flutter:
     - assets/icons/logo.png
     - assets/images/add_button.png
     - assets/images/empty.png
+    - assets/icons/adopt.png
+    - assets/icons/care.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

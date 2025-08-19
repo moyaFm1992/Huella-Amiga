@@ -5,6 +5,11 @@ class AboutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Obtener dimensiones y orientación del dispositivo
+    final screenSize = MediaQuery.of(context).size;
+    final isPortrait =
+        MediaQuery.of(context).orientation == Orientation.portrait;
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: Stack(
@@ -23,97 +28,102 @@ class AboutScreen extends StatelessWidget {
               ),
             ),
             child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // Logo
-                    Image.asset(
-                      "assets/icons/logo.png",
-                      width: MediaQuery.of(context).size.width * 0.5,
-                    ),
-                    const SizedBox(height: 30),
-
-                    // Nombre de la app
-                    const Text(
-                      'Huella Amiga App',
-                      style: TextStyle(
-                        fontSize: 26,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        shadows: [
-                          Shadow(
-                            blurRadius: 10.0,
-                            color: Colors.black45,
-                            offset: Offset(2.0, 2.0),
-                          ),
-                        ],
+              child: SingleChildScrollView(
+                // Para evitar overflow en landscape
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // Logo (tamaño ajustado según orientación)
+                      Image.asset(
+                        "assets/icons/logo.png",
+                        width: isPortrait
+                            ? screenSize.width * 0.5
+                            : screenSize.width * 0.3,
                       ),
-                      textAlign: TextAlign.center,
-                    ),
+                      SizedBox(height: isPortrait ? 30 : 20),
 
-                    const SizedBox(height: 20),
-
-                    // Desarrollador
-                    const Text(
-                      'Desarrollado por: FAMCH',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white70,
-                        shadows: [
-                          Shadow(
-                            blurRadius: 8.0,
-                            color: Colors.black45,
-                            offset: Offset(1.5, 1.5),
-                          ),
-                        ],
+                      // Nombre de la app (tamaño de texto adaptable)
+                      Text(
+                        'Huella Amiga App',
+                        style: TextStyle(
+                          fontSize: isPortrait ? 26 : 22,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          shadows: const [
+                            Shadow(
+                              blurRadius: 10.0,
+                              color: Colors.black45,
+                              offset: Offset(2.0, 2.0),
+                            ),
+                          ],
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                      textAlign: TextAlign.center,
-                    ),
 
-                    const SizedBox(height: 10),
+                      SizedBox(height: isPortrait ? 20 : 15),
 
-                    // Versión
-                    const Text(
-                      'Versión: 1.0.0',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white70,
+                      // Desarrollador
+                      const Text(
+                        'Desarrollado por: FAMCH',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white70,
+                          shadows: [
+                            Shadow(
+                              blurRadius: 8.0,
+                              color: Colors.black45,
+                              offset: Offset(1.5, 1.5),
+                            ),
+                          ],
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                    ),
 
-                    const SizedBox(height: 10),
+                      const SizedBox(height: 10),
 
-                    // Año
-                    Text(
-                      '© ${DateTime.now().year}',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey,
+                      // Versión
+                      const Text(
+                        'Versión: 1.0.0',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white70,
+                        ),
                       ),
-                    ),
 
-                    const SizedBox(height: 40),
+                      const SizedBox(height: 10),
 
-                    // Derechos
-                    const Text(
-                      'Todos los derechos reservados.',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey,
-                        shadows: [
-                          Shadow(
-                            blurRadius: 10.0,
-                            color: Colors.black45,
-                            offset: Offset(2.0, 2.0),
-                          ),
-                        ],
+                      // Año
+                      Text(
+                        '© ${DateTime.now().year}',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey,
+                        ),
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
+
+                      SizedBox(height: isPortrait ? 40 : 25),
+
+                      // Derechos
+                      const Text(
+                        'Todos los derechos reservados.',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey,
+                          shadows: [
+                            Shadow(
+                              blurRadius: 10.0,
+                              color: Colors.black45,
+                              offset: Offset(2.0, 2.0),
+                            ),
+                          ],
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
