@@ -3,6 +3,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:take_care_pets/services/api_service.dart';
+import 'package:geolocator/geolocator.dart';
 
 class AddDogScreen extends StatefulWidget {
   const AddDogScreen({super.key});
