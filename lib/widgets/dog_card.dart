@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:take_care_pets/models/dog.dart';
 import 'package:take_care_pets/screens/dog_detail_screen.dart';
+import 'package:intl/intl.dart';
 
 class DogCard extends StatelessWidget {
   final Dog dog;
@@ -71,7 +72,7 @@ class DogCard extends StatelessWidget {
                         style: const TextStyle(color: Colors.grey),
                       ),
                       Text(
-                        'Reportado el: ${dog.createdAt.day}/${dog.createdAt.month}/${dog.createdAt.year}',
+                        'Reportado el ${DateFormat('dd/MM/yyyy hh:mm a').format(dog.createdAt.toLocal())}',
                         style: const TextStyle(color: Colors.grey),
                       ),
                     ],

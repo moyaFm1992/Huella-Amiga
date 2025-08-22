@@ -58,16 +58,58 @@ class _AddDogScreenState extends State<AddDogScreen> {
   }
 
   Future<void> _getLocation() async {
-    // En una app real, aquí usarías el paquete geolocator
-    // Esto es solo para simulación
-    setState(() {
-      _latitude = 19.4326; // Ejemplo: Ciudad de México
-      _longitude = -99.1332;
-    });
+    // Verificar permisos de ubicación
+    LocationPermission permission = await Geolocator.checkPermission();
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Ubicación obtenida: CDMX (simulado)')),
-    );
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+
+      if (permission == LocationPermission.denied) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Permisos de ubicación denegados')),
+        );
+        return;
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+              'Los permisos de ubicación están permanentemente denegados. Por favor habilítalos en la configuración'),
+        ),
+      );
+      await openAppSettings();
+      return;
+    }
+
+    // Obtener la ubicación actual
+    try {
+      setState(() => _isLoading = true);
+
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+        timeLimit: const Duration(seconds: 30),
+      );
+
+      setState(() {
+        _latitude = position.latitude;
+        _longitude = position.longitude;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+              'Ubicación obtenida: ${_latitude!.toStringAsFixed(4)}, ${_longitude!.toStringAsFixed(4)}'),
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error al obtener ubicación: $e')),
+      );
+    } finally {
+      setState(() => _isLoading = false);
+    }
   }
 
   Future<void> _submitForm() async {

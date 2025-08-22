@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:take_care_pets/models/dog.dart';
 import 'package:take_care_pets/screens/dog_location_screen.dart';
+import 'package:intl/intl.dart';
 
 class DogDetailScreen extends StatelessWidget {
   final Dog dog;
@@ -79,7 +80,7 @@ class DogDetailScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Reportado el ${dog.createdAt.day}/${dog.createdAt.month}/${dog.createdAt.year} a las ${dog.createdAt.hour}:${dog.createdAt.minute.toString().padLeft(2, '0')}',
+                    'Reportado el ${DateFormat('dd/MM/yyyy').format(dog.createdAt)} a las ${DateFormat('hh:mm a').format(dog.createdAt)}',
                     style: const TextStyle(fontSize: 16),
                   ),
                 ],
